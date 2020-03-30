@@ -1,0 +1,19 @@
+FROM openjdk:8u242-jre
+
+ENV HOME=/home
+
+ENV K_VERSION=2.4.0 \
+    S_VERSION=2.11 \
+    PLATFORM=KAFKA \
+    PLATFORM_PATH="${HOME}/kafka" \
+    CONFIG_PATH="config/server.properties" \
+    CMD_PATH="bin/kafka-server-start.sh"
+
+COPY start.sh $HOME/
+
+RUN cd /${HOME} \
+    && wget https://downloads.apache.org/kafka/${K_VERSION}/kafka_${S_VERSION}-${K_VERSION}.tgz \
+    && tar -xvzf kafka_${S_VERSION}-${K_VERSION}.tgz \
+    && mv kafka_${S_VERSION}-${K_VERSION} kafka 
+
+CMD [ "sh", "-c", "${HOME}/start.sh" ]

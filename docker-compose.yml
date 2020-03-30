@@ -1,0 +1,23 @@
+version: '3.7'
+services: 
+    zookeeper:
+        image: zookeeper-img
+        container_name: zookeeper-ctn
+        volumes: 
+            - "/Users/phungvandat/kafka/docker/logs/zookeeper/:/tmp/zookeeper/"
+        ports:
+            - 2181:2181
+        restart: always
+
+    kafka:
+        image: kafka-img
+        container_name: kafka-ctn
+        volumes: 
+            - "/Users/phungvandat/kafka/docker/logs/kafka/:/tmp/kafka-logs/"
+        environment: 
+            KAFKA_BROKER_ID: 1
+            KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+            KAFKA_ADVERTISED_HOST_NAME: localhost
+        ports:
+            - 9092:9092
+        restart: always

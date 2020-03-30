@@ -1,0 +1,18 @@
+FROM openjdk:8u242-jre
+
+ENV HOME=/home
+
+ENV Z_VERSION=3.5.7 \
+    PLATFORM=ZOOKEEPER \
+    PLATFORM_PATH="${HOME}/zookeeper" \
+    CMD_PATH="bin/zkServer.sh" \
+    CONFIG_PATH="conf/zoo_sample.cfg" 
+
+COPY start.sh $HOME/
+
+RUN cd /${HOME} \
+    && wget https://downloads.apache.org/zookeeper/zookeeper-${Z_VERSION}/apache-zookeeper-${Z_VERSION}-bin.tar.gz \
+    && tar -xvzf apache-zookeeper-${Z_VERSION}-bin.tar.gz \
+    && mv apache-zookeeper-${Z_VERSION}-bin zookeeper 
+
+CMD [ "sh", "-c", "${HOME}/start.sh" ]
